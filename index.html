@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Panel Animation</title>
+    <style>
+        /* General Reset and Body Styling */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: dimgray;
+            margin: 0;
+            height: 100vh;
+        }
+
+        /* Container Styling */
+        .kit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: fit-content;
+            height: fit-content;
+            background-color: gray;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* Light Panel and Button Panel */
+        #light-pannel {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .light {
+            border: 1px solid black;
+            width: 100px;
+            height: 50px;
+            background-color: white;
+            border-radius: 4px;
+        }
+
+        #btn-pannel {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<section class="kit">
+    <section id="light-pannel">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+    </section>
+
+    <section id="btn-pannel">
+        <button id="start-btn">Start</button>
+        <button id="stop-btn">Stop</button>
+    </section>
+</section>
+
+<script src="lib/jquery-3.7.1.min.js.js"></script>
+<script>
+    const lightCount = 6;
+    let currentLight = -1;
+    let direction = "RIGHT"; // Can be "RIGHT" or "LEFT"
+    let intervalId = null;
+
+    const updateLight = () => {
+        $(".light").css("background-color", "white"); // Reset all lights
+
+        if (direction === "RIGHT") {
+            currentLight++;
+            $(".light").eq(currentLight).css("background-color", "red"); // Active light
+            $(".light").eq(currentLight - 1).css("background-color", "pink"); // Previous light
+
+            if (currentLight === lightCount - 1) {
+                direction = "LEFT";
+            }
+        } else {
+            currentLight--;
+            $(".light").eq(currentLight).css("background-color", "red"); // Active light
+            $(".light").eq(currentLight + 1).css("background-color", "pink"); // Previous light
+
+            if (currentLight === 0) {
+                direction = "RIGHT";
+            }
+        }
+    };
+
+    $('#start-btn').on('click', () => {
+        intervalId = setInterval(updateLight, 100);
+    });
+
+    $('#stop-btn').on('click', () => {
+        clearInterval(intervalId);
+    });
+</script>
+</body>
+</html>
